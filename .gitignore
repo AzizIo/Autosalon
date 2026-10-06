@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+logs/
+*.log
+AutoSalon.db
+*_backup.db
+.vscode/
+.idea/
+requirements.txt 
+README.md 
+config.py 
+models/__init__.py 
+services/__init__.py 
+controllers/__init__.py 
+views/__init__.py
