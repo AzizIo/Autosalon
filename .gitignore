@@ -7,7 +7,6 @@ AutoSalon.db
 *_backup.db
 .vscode/
 .idea/
-requirements.txt 
 README.md 
 config.py 
 models/__init__.py 
