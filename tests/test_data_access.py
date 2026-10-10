@@ -1,5 +1,8 @@
 import sqlite3
+
 import pytest
+
+from exceptions import InsufficientStockError
 from models import data_access
 
 
@@ -63,7 +66,7 @@ def test_sale_decreases_stock(test_db):
 def test_sale_rejects_excess_stock(test_db):
     st = pick_stock(test_db)
     before = st["car_count"]
-    with pytest.raises(Exception):
+    with pytest.raises(InsufficientStockError):
         data_access.create_sale(
             st["dealership_id"], st["employee_id"], None,
             [{"car_id": st["car_id"], "quantity": before + 1, "price": st["price"]}])

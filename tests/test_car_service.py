@@ -1,4 +1,5 @@
 import pytest
+
 from exceptions import ValidationError
 from services.car_service import CarService
 
@@ -22,8 +23,14 @@ def service():
 
 
 def valid():
-    return dict(model_name="Camry", price=32000, year=2023, body_type="Седан",
-                manufacturer_id=1, color="Белый")
+    return {
+        "model_name": "Camry",
+        "price": 32000,
+        "year": 2023,
+        "body_type": "Седан",
+        "manufacturer_id": 1,
+        "color": "Белый",
+    }
 
 
 def error_text(exc_info):
@@ -40,7 +47,8 @@ def test_add_valid_car():
 
 def test_reject_empty_name():
     s, repo = service()
-    data = valid(); data["model_name"] = " "
+    data = valid()
+    data["model_name"] = " "
     with pytest.raises(ValidationError) as exc:
         s.add_car(**data)
     assert "Название" in error_text(exc)
@@ -49,7 +57,8 @@ def test_reject_empty_name():
 
 def test_reject_non_positive_price():
     s, _ = service()
-    data = valid(); data["price"] = 0
+    data = valid()
+    data["price"] = 0
     with pytest.raises(ValidationError) as exc:
         s.add_car(**data)
     assert "Цена" in error_text(exc)
@@ -57,7 +66,8 @@ def test_reject_non_positive_price():
 
 def test_reject_invalid_year():
     s, _ = service()
-    data = valid(); data["year"] = 1800
+    data = valid()
+    data["year"] = 1800
     with pytest.raises(ValidationError) as exc:
         s.add_car(**data)
     assert "Год выпуска" in error_text(exc)
@@ -65,7 +75,8 @@ def test_reject_invalid_year():
 
 def test_reject_missing_manufacturer():
     s, _ = service()
-    data = valid(); data["manufacturer_id"] = None
+    data = valid()
+    data["manufacturer_id"] = None
     with pytest.raises(ValidationError) as exc:
         s.add_car(**data)
     assert "производител" in error_text(exc)

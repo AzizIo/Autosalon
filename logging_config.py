@@ -5,14 +5,16 @@
 import logging
 import sys
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
-import config
+LOG_DIR = Path(__file__).resolve().parent / "logs"
+LOG_FILE = LOG_DIR / "autosalon.log"
 
 LOG_FORMAT = "%(asctime)s | %(levelname)-7s | %(name)s | %(message)s"
 
 
 def setup_logging(console_level: int = logging.INFO) -> logging.Logger:
-    config.LOG_DIR.mkdir(parents=True, exist_ok=True)
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
     logger = logging.getLogger("autosalon")
     if logger.handlers:                      # повторный вызов не дублирует обработчики
         return logger
@@ -20,7 +22,7 @@ def setup_logging(console_level: int = logging.INFO) -> logging.Logger:
     logger.propagate = False
 
     file_handler = RotatingFileHandler(
-        config.LOG_FILE, maxBytes=1_000_000, backupCount=3, encoding="utf-8"
+        LOG_FILE, maxBytes=1_000_000, backupCount=3, encoding="utf-8"
     )
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
@@ -32,3 +34,4 @@ def setup_logging(console_level: int = logging.INFO) -> logging.Logger:
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
     return logger
+
