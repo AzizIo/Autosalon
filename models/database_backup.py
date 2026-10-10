@@ -6,6 +6,7 @@ import tempfile
 from pathlib import Path
 
 from exceptions import IntegrationError
+
 from . import data_access
 
 logger = logging.getLogger("autosalon.backup")
@@ -40,10 +41,9 @@ def create_backup(destination: str | Path) -> Path:
         raise IntegrationError("Путь резервной копии совпадает с файлом рабочей базы")
 
     destination_path.parent.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(source_path) as source:
-        with sqlite3.connect(destination_path) as target:
-            source.backup(target)
-            _validate_database(target)
+    with sqlite3.connect(source_path) as source, sqlite3.connect(destination_path) as target:
+        source.backup(target)
+        _validate_database(target)
     logger.info("Создана резервная копия: %s", destination_path)
     return destination_path
 

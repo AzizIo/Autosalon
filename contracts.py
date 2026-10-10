@@ -4,7 +4,8 @@
     Controllers → Service-контракты → Repository-контракты → data_access (SQLite)
 Модуль models.data_access удовлетворяет контрактам Repository структурно.
 """
-from typing import Any, Mapping, Protocol, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any, Protocol
 
 Row = Mapping[str, Any]
 

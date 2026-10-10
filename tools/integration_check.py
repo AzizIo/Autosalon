@@ -9,9 +9,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from logging_config import setup_logging          # noqa: E402
-from models import data_access                    # noqa: E402
-from models.database_init import ensure_database  # noqa: E402
+from logging_config import setup_logging
+from models import data_access
+from models.database_init import ensure_database
 
 
 def main() -> int:
@@ -20,7 +20,7 @@ def main() -> int:
     data_access.DB_PATH = str(tmp)
     ensure_database(tmp)
 
-    from composition import build_controllers      # noqa: E402  (после подмены пути БД)
+    from composition import build_controllers
     c = build_controllers()
 
     cars = c["car_controller"].get_all_cars()

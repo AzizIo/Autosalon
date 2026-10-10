@@ -10,7 +10,10 @@ from contextlib import contextmanager
 
 import config
 from exceptions import (
-    CarInUseError, InsufficientStockError, IntegrationError, ValidationError,
+    CarInUseError,
+    InsufficientStockError,
+    IntegrationError,
+    ValidationError,
 )
 
 DB_PATH = str(config.DB_PATH)

@@ -17,7 +17,7 @@ class Dealership(Base):
     dealership_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     address: Mapped[str] = mapped_column(String(50))
     city: Mapped[str] = mapped_column(String(30))
-    phone_number: Mapped[Optional[str]] = mapped_column(String(20))
+    phone_number: Mapped[str | None] = mapped_column(String(20))
 
     employees: Mapped[list["Employee"]] = relationship(back_populates="dealership")
     sales: Mapped[list["Sale"]] = relationship(back_populates="dealership")
@@ -30,7 +30,7 @@ class Employee(Base):
     employee_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     first_name: Mapped[str] = mapped_column(String(50))
     last_name: Mapped[str] = mapped_column(String(50))
-    phone_number: Mapped[Optional[str]] = mapped_column(String(20), unique=True)
+    phone_number: Mapped[str | None] = mapped_column(String(20), unique=True)
     job_title: Mapped[str] = mapped_column(String(50))
     dealership_id: Mapped[int] = mapped_column(ForeignKey("Dealerships.dealership_id"))
 
@@ -44,8 +44,8 @@ class Customer(Base):
     customer_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     first_name: Mapped[str] = mapped_column(String(50))
     last_name: Mapped[str] = mapped_column(String(50))
-    email: Mapped[Optional[str]] = mapped_column(String(100), unique=True)
-    phone_number: Mapped[Optional[str]] = mapped_column(String(20), unique=True)
+    email: Mapped[str | None] = mapped_column(String(100), unique=True)
+    phone_number: Mapped[str | None] = mapped_column(String(20), unique=True)
 
     sales: Mapped[list["Sale"]] = relationship(back_populates="customer")
 
@@ -55,7 +55,7 @@ class Manufacturer(Base):
 
     manufacturer_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     manufacturer_name: Mapped[str] = mapped_column(String(100), unique=True)
-    country: Mapped[Optional[str]] = mapped_column(String(50))
+    country: Mapped[str | None] = mapped_column(String(50))
 
     cars: Mapped[list["Car"]] = relationship(back_populates="manufacturer")
 
@@ -68,7 +68,7 @@ class Car(Base):
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
     year_of_manufacture: Mapped[int]
     body_type: Mapped[str] = mapped_column(String(20))
-    color: Mapped[Optional[str]] = mapped_column(String(30))
+    color: Mapped[str | None] = mapped_column(String(30))
     manufacturer_id: Mapped[int] = mapped_column(ForeignKey("Manufacturers.manufacturer_id"))
 
     manufacturer: Mapped["Manufacturer"] = relationship(back_populates="cars")
@@ -95,7 +95,7 @@ class Sale(Base):
     sale_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     dealership_id: Mapped[int] = mapped_column(ForeignKey("Dealerships.dealership_id"))
     employee_id: Mapped[int] = mapped_column(ForeignKey("Employees.employee_id"))
-    customer_id: Mapped[Optional[int]] = mapped_column(ForeignKey("Customers.customer_id"))
+    customer_id: Mapped[int | None] = mapped_column(ForeignKey("Customers.customer_id"))
 
     dealership: Mapped["Dealership"] = relationship(back_populates="sales")
     employee: Mapped["Employee"] = relationship(back_populates="sales")
