@@ -1,0 +1,7 @@
+Результат автоматических тестов
+
+15 passed, 0 failed
+Покрытие выбранных модулей: 73%
+
+Команда:
+python3 -m pytest -q --cov=services --cov=models.data_access --cov-report=term --cov-report=html:htmlcov
